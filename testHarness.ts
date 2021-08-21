@@ -28,9 +28,9 @@ export class TestHarness {
     console.log(">>>>>>>>>>>>>>>>>>>>" + type + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     console.log("Current entries: " + total);
     console.log("New records written: " + written);
-    console.log("Average: " + avg / 10e6 + " ms");
-    console.log("Min: " + min / 10e6 + " ms");
-    console.log("Max: " + max / 10e6 + " ms");
+    console.log("Average: " + avg / 1e6 + " ms");
+    console.log("Min: " + min / 1e6 + " ms");
+    console.log("Max: " + max / 1e6 + " ms");
     console.log("<<<<<<<<<<<<<<<<<<<<" + type + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     console.log("\n");
   }
@@ -70,7 +70,7 @@ export class TestHarness {
       await this.db.Write(time, sessionId, sentence);
       // Stop timer
       const hrend = process.hrtime(hrstart);
-      const runNs = hrend[0] * 10e9 + hrend[1];
+      const runNs = hrend[0] * 1e9 + hrend[1];
 
       // Calculate stats
       sumNs += runNs;
@@ -100,7 +100,7 @@ export class TestHarness {
 
       // Stop timer
       const hrend = process.hrtime(hrstart);
-      const runNs = hrend[0] * 10e9 + hrend[1];
+      const runNs = hrend[0] * 1e9 + hrend[1];
 
       // Calculate stats
       sumNs += runNs;
@@ -115,12 +115,46 @@ export class TestHarness {
     this.printStats("READ", this.recordsWritten, 0, minNs, avgNs, maxNs);
   }
 
+  async readWriteLatency() {
+    const row = this.sentenceArr[this.recordsWritten].split(','); // Get sentence
+    const sessionId = row[0];
+    const sentence = row[1];
+    const time = new Date();
+
+    // Start timer
+    const wstart = process.hrtime();
+    // Write to database
+    await this.db.Write(time, sessionId, sentence);
+    // Stop timer
+    const wend = process.hrtime(wstart);
+    const wNs = wend[0] * 1e9 + wend[1];
+
+    // Start timer
+    const rstart = process.hrtime();
+
+    // Read from database
+    await this.db.Read();
+
+    // Stop timer
+    const rend = process.hrtime(rstart);
+    const rNs = rend[0] * 1e9 + rend[1];
+    console.log(this.recordsWritten, wNs/1e6, rNs/1e6);
+    this.recordsWritten++;
+  }
+
+  async RWBenchmark(entries: number) {
+    for (let i = 0; i < entries; i++) {
+      await this.readWriteLatency();
+    }
+  }
+
   async RunBenchmark() {
     try {
       await this.db.Clear();
       console.log("starting benchmark...");
-      await this.writeBenchmark(100);
-      await this.readBenchmark();
+      await this.RWBenchmark(10000);
+      // await this.writeBenchmark(100);
+      // await this.readBenchmark();
 
       // await this.writeBenchmark(20000);
       // await this.readBenchmark();
