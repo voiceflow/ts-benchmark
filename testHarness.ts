@@ -138,7 +138,7 @@ export class TestHarness {
     // Stop timer
     const rend = process.hrtime(rstart);
     const rNs = rend[0] * 1e9 + rend[1];
-    console.log(this.recordsWritten, wNs/1e6, rNs/1e6);
+    console.log(this.recordsWritten + "," + wNs + "," + rNs);
     this.recordsWritten++;
   }
 
