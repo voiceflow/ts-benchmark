@@ -124,25 +124,25 @@ export class TestHarness {
     const time = new Date();
 
     // Start timer
-    //const wstart = process.hrtime();
+    const wstart = process.hrtime();
     // Write to database
     await this.db.Write(time, sessionId, sentence);
     // Stop timer
-    //const wend = process.hrtime(wstart);
-    //const wNs = wend[0] * 1e9 + wend[1];
+    const wend = process.hrtime(wstart);
+    const wNs = wend[0] * 1e9 + wend[1];
 
     // Start timer
-    //const rstart = process.hrtime();
+    const rstart = process.hrtime();
 
     // Read from database
-    //await this.db.Read();
+    await this.db.Read();
 
     // Stop timer
-    //const rend = process.hrtime(rstart);
-    //const rNs = rend[0] * 1e9 + rend[1];
-    if (this.recordsWritten % 5000 == 0){
-      console.log(this.recordsWritten);
-      //console.log(this.recordsWritten + "," + wNs + "," + rNs);
+    const rend = process.hrtime(rstart);
+    const rNs = rend[0] * 1e9 + rend[1];
+    if (this.recordsWritten % 1 == 0){
+      //console.log(this.recordsWritten);
+      console.log(this.recordsWritten + "," + wNs + "," + rNs);
     }
     this.recordsWritten++;
   }
