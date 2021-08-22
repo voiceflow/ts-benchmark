@@ -1,4 +1,4 @@
-import { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 import * as credentials from './credentials.json';
 
 export class Timescale {

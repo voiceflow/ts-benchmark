@@ -11,6 +11,7 @@
     "benchmark": "NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node index.ts"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^16.7.0",
     "@types/pg": "^8.6.1",
@@ -18,6 +19,8 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "athena-express": "^7.1.0",
+    "aws-sdk": "^2.973.0",
     "mongodb": "^4.1.0",
     "pg": "^8.7.1",
     "random-sentence": "^1.0.4"
