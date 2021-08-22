@@ -24,7 +24,7 @@ export class MongoDB {
       }
     );
     this.sentences = this.client.db('main').collection('sentences');
-    this.sentences.createIndex({ sessionId: 1 }); // Ascending index
+//    this.sentences.createIndex({ sessionId: 1 }); // Ascending index
   }
 
   async Write(time: Date, sessionId: string, sentence: string) {

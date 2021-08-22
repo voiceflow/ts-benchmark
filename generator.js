@@ -2,8 +2,8 @@ const randomSentence = require('random-sentence');
 const fs = require('fs');
 
 let content = "";
-const entries = 1000000;
-const mockSessions = 50000;
+const entries = 5000000;
+const mockSessions = 500000;
 const outputFile = "./sentences.txt";
 
 for (let i = 0; i < entries; i++) {
