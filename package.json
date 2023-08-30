@@ -21,7 +21,7 @@
   "dependencies": {
     "athena-express": "^7.1.0",
     "aws-sdk": "^2.973.0",
-    "mongodb": "^4.1.0",
+    "mongodb": "^4.17.0",
     "pg": "^8.7.1",
     "random-sentence": "^1.0.4"
   }
